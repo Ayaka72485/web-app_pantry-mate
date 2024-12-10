@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <title>{% block title %}{% endblock title %}| 料理MAPアプリ</title>
+    {% load static %} 
+    <!-- CSSの設定 -->
+    <style>
+        body {
+            background-color: seashell; 
+            font-family:"ヒラギノ丸ゴ Pro W4","ヒラギノ丸ゴ Pro","Hiragino Maru Gothic Pro","ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro","HG丸ｺﾞｼｯｸM-PRO","HGMaruGothicMPRO";
+        }
+        .navi{
+            position: fixed;
+            top: 0;
+            z-index: 10;
+            height: 60px;
+            width: 100%
+        }
+        .custom-nav {
+            background-color: #6F4E37;
+        }
+        .custom-nav .nav-link {
+            color: seashell !important; /* 任意の色に変更 */
+        }
+        .card{
+            background-color: seashell; 
+        }
+        .card-header{
+            font-size: 18px;
+        }
+        .card-title{
+            font-size: 25px;
+        }
+        .button{
+            background-color: #ff9966;
+            color: #2B1B17;
+            margin-left: 10px;
+            margin-bottom: 10px;
+            width: 110px;
+            letter-spacing: 3px;
+        } 
+        .button:hover{
+            background-color: #F88158;   
+        }
+        .btn button:hover{
+            background-color: #F88158;   
+        }
+
+        .category-list{
+            /* カテゴリー */
+            padding-top: 80px;
+            position: fixed;
+            background-color: white;
+            border-bottom: 1px solid #c0c0c0;
+            
+            text-align: center;
+            box-sizing: border-box;
+            width: 100%;
+
+            padding-left: 20px; 
+            background-color: #FFEBCD;
+        }
+        .food-blocks-list{
+            padding-top: 180px;
+        }
+        .food-blocks{
+            padding-top: 50px;
+        }
+        .food-block{
+            /* 食材 */
+            border: 2px solid #ff9966;
+            border-radius: 8px;
+            /* margin-top: 30px;
+            margin-left: 10px; */
+            padding: 5px;
+            float: left;
+            margin-bottom: 10px;
+            min-width: 20%;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        .best-by-group{
+            clear: both;
+            margin-bottom: 20px;
+        }
+        /*food-block内の食材名の部分*/
+        .detail{
+            display: block;
+            padding: 10px;
+        }
+        .detail a{
+            color: black;
+            font-size: 25px;
+            text-decoration: none;
+        }
+
+        /*food_create.html*/
+        .food-create{
+            padding-top: 50px;
+            margin-left: 10px;
+
+        }
+        .food-create form {
+           display: flex;
+           flex-direction: column;
+           gap: 10px;
+       }
+      
+       .food-create label {
+           width: 100px; /* ラベルの幅を固定して揃える */
+           display: inline-block;
+       }
+      
+       .food-create input[type="text"],
+       .food-create input[type="number"],
+       .food-create select,
+       .food-create input[type="date"] {
+           width: 100%; /* 入力欄の幅を揃える */
+           max-width: 300px; /* 最大幅を指定 */
+           padding: 5px;
+           box-sizing: border-box;
+       }
+      
+       .food-create input[type="submit"] {
+           width: auto; /* ボタン幅を自動調整 */
+           padding: 8px 16px;
+           background-color: #a0522d;
+           color: #fff;
+           border: none;
+           cursor: pointer;
+           margin-top: 10px;
+           align-self: flex-start; /* ボタンを左寄せに */
+       }
+
+        .food-delete{
+            padding-top: 30px;
+            margin-left: 10px;
+        }
+        .food-delete h2{
+            /* text-align: center; */
+            padding-bottom: 20px;
+        }
+        .food-update{
+            padding-top: 20px;
+            margin-left: 10px;
+        }
+        .task{
+            /* text-align: center; */
+            font-size: 20px;
+            padding-bottom: 10px;
+            padding-top: 40px;
+        }
+        .task-w{
+            /* text-align: center; */
+            font-size: 20px;
+            padding-bottom: 10px;
+            padding-top: 110px;
+
+        }
+        /* voice_input_form.html */
+        .voice-input-form{
+            padding-top: 50px;
+            margin-left: 10px;
+        }
+        .voice-input-form p{
+            /* text-align: center; */
+            font-size: 20px;
+            padding-bottom: 10px;
+        }
+
+        /* receipt_input_form.html */
+        .receipt-input-form{
+            padding-top: 50px;
+            margin-left: 10px;
+        }
+        .load{
+            margin-top: 10px;
+        }
+        .receipt-input-form p{
+            /* text-align: center; */
+            /* font-size: 40px; */
+            padding-bottom: 10px;
+        }
+        /* receipt_result.html */
+        .receipt-result{
+            padding-top: 80px;
+            margin-left: 10px;
+        }
+        .food-item input[type="text"] {
+            width: 150px; /* 横幅を100pxに設定 */
+        }    
+        .food-item input[type="number"] {
+            width: 30px; /* 横幅を100pxに設定 */
+        }       
+        .menu-btn { 
+            font-size: 60px;
+            cursor: pointer;
+            position: fixed;
+            top: 43px;
+            left: 20px;
+            z-index: 2;
+            color: #6F4E37;
+        }
+        .side-menu {
+            display: none;
+            position: fixed;
+            left: 0;
+            top: 65px; /* ハンバーガーメニューの位置に揃える */
+            width: 150px;
+            height: 100%;
+            background-color: #FFEBCD;
+            box-shadow: 2px 0 5px rgba(1,1,1,0.2);
+            z-index: 1;
+        }
+        /* サイドメニュー内のリストの黒丸を消す */
+        .side-menu ul {
+            list-style-type: none; /* 箇条書きのスタイルを無しに設定 */
+            padding: 0; /* リストのパディングを削除 */
+            margin: 0; /* リストのマージンを削除 */
+        }
+        .menu-button {
+            display: block;
+            padding: 10px 20px;
+            background-color: #ff9966;
+            color: black;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 5px 10px;
+            font-size: 16px;
+        }
+        /* メニュー内のボタンのホバー時のスタイル */
+        .menu-button:hover {
+            background-color:  #F88158;
+            color: black; /* ホバー時でも文字の色を黒に保つ */
+            text-decoration: none; /* 下線が表示されないようにする */
+        }
+
+        /* リンクが選択されたときのデフォルトの青色を防ぐ */
+        .menu-button:focus, .menu-button:active {
+            color: black; /* フォーカス時やクリック時も文字の色を黒に保つ */
+            text-decoration: none; /* 下線を表示しない */
+            outline: none; /* フォーカスの枠を消す */
+        }
+        /*タブレットのサイズ感*/
+        @media(max-width: 1000px){
+            
+        }
+
+        /*スマホのサイズ感*/
+        @media(max-width: 670px){
+            .food-block{
+                
+                width: 50%;
+            }
+            .category-list{
+                padding-bottom: 50px;
+            }
+            .detail a{
+                font-size: 20px
+            }
+            .category-list{
+                height: 50px;
+            }
+            /* .food-blocks{
+                padding-top: 0;
+            } */
+            .food-blocks-list{
+                padding-top: 130px;
+            }
+            .task-w{
+               padding-top: 60px;
+           }
+           .category-list{
+                /* カテゴリー */
+                display: none;
+           }
+           .receipt-input-form p{
+                font-size: 20px;
+            }
+
+        }
+    </style>
+    <!--スタイルの中でボタンの色と文字の色を設定-->
+    </head>
+    <body>
+        <nav class="navbar navbar-light custom-nav sticky-top custom-nav navi">
+            <!--上のクラスで、ナビゲーションの色を設定-->
+            <div class="navbar-nav d-flex flex-row">
+                <a class="nav-link mx-3" href="{% url 'list-food' %}">食材一覧</a>
+                <a class="nav-link mx-3" href="{% url 'create-food' %}">食材登録</a>
+                <a class="nav-link mx-3" href="{% url 'process_voice_input' %}">食材修正</a>
+                <a class="nav-link mx-3" href="{% url 'process_receipt_input' %}">画像登録</a>
+            </div>
+
+            <!-- <div class="menu-btn" onclick="toggleMenu()">☰</div>
+            <div id="side-menu" class="side-menu">
+                <ul>
+                    <p class="task"></p>
+                    <li><a href="{% url 'meat-list' %}" class="menu-button">肉</a></li>
+                    <li><a href="{% url 'vegetable-list' %}" class="menu-button">野菜</a></li>
+                    <li><a href="{% url 'fruit-list' %}" class="menu-button">果物</a></li>
+                    <li><a href="{% url 'drink-list' %}" class="menu-button">飲料</a></li>
+                    <li><a href="{% url 'frozen_food-list' %}" class="menu-button">冷凍食品</a></li>
+                    <li><a href="{% url 'noodle-list' %}" class="menu-button">麺</a></li>
+                    <li><a href="{% url 'seasoning-list' %}" class="menu-button">調味料</a></li>
+                    <li><a href="{% url 'other-list' %}" class="menu-button">その他</a></li>
+                </ul>
+            </div> -->
+        </nav>
+        <script src="{% static 'js/menu.js' %}"></script>
+        <!-- <div class='p-4'>
+            <h1>{% block h1 %}{% endblock %}</h1>
+        </div> -->
+        {% block content %}{% endblock content %}
+    </body>
+</html>

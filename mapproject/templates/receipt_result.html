@@ -1,0 +1,50 @@
+
+{% extends 'base.html' %}
+
+{% block title %}食材の修正{% endblock %}
+
+{% block content %}
+<div class="receipt-result">
+  <h2>商品名と個数</h2>
+
+  <form method="POST" action="{% url 'register_food' %}">
+    {% csrf_token %}
+    {% for item in parsed_receipt %}
+    <div class="food-item">
+      {{ form.title.label }}
+      <input type="text" name="title_{{ forloop.counter }}" value="{{ item.name }}" required>
+
+      <label for="category_{{ forloop.counter }}">{{ form.category.label }}</label>
+      <select name="category_{{ forloop.counter }}">
+        {% for value, display in form.fields.category.choices %}
+        <option value="{{ value }}" {% if item.category == value %}selected{% endif %}>
+            {{ display }}
+        </option>
+        {% endfor %}
+      </select>
+
+      <br>
+      {{ form.number.label }}
+      <input type="number" name="number_{{ forloop.counter }}" value="{{ item.quantity }}" required >
+
+      <label for="unit_{{ forloop.counter }}">{{ form.unit.label }}</label>
+      <select name="unit_{{ forloop.counter }}">
+        {% for value, display in form.fields.unit.choices %}
+        <option value="{{ value }}" {% if item.unit == value %}selected{% endif %}>
+            {{ display }}
+        </option>
+        {% endfor %}
+      </select>
+
+      <label for="best_by_date_{{ forloop.counter }}">{{ form.best_by_date.label }}</label>
+      <input type="date" name="best_by_date_{{ forloop.counter }}" value={{item.best_by_date}}>
+      <p></p>
+    </div>
+    {% endfor %}
+  
+    <button type="submit">登録</button>
+</form>
+
+</div> 
+
+{% endblock %}

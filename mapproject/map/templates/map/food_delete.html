@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}削除{% endblock %}
+
+{% block content %}
+    <div class="food-delete">
+        <p class="task"></p>
+        <h2>以下の食材を削除しますか？</h2>
+        <p>食材名: {{ object.title }}</p>
+        <p>カテゴリー: {{ object.get_category_display }}</p>
+        <p>個数: {{ object.number }}</p>
+        <p>賞味期限: {{ object.best_by_date|date:"Y n/j" }}</p>
+
+        <form method="post">{% csrf_token %}
+            <input type="hidden" name="id" value="{{ object.id }}">
+            <!-- <button type="button" onclick="startDictation()">音声入力を開始</button> -->
+            <br>
+            <button type="submit">{{ object.title }}を削除する</button>
+        </form>
+    </div>
+    <script>
+        function startDictation() {
+            if (window.hasOwnProperty('webkitSpeechRecognition')) {
+                var recognition = new webkitSpeechRecognition();
+
+                recognition.continuous = false;
+                recognition.interimResults = false;
+
+                recognition.lang = "ja-JP";  // 日本語に設定
+                recognition.start();
+
+                recognition.onresult = function(e) {
+                    var result = e.results[0][0].transcript.trim();
+                    if (result === "削除") {
+                        document.querySelector('form').submit();
+                    }
+                    recognition.stop();
+                };
+
+                recognition.onerror = function(e) {
+                    recognition.stop();
+                }
+            } else {
+                alert("お使いのブラウザは音声認識をサポートしていません。");
+            }
+        }
+    </script>
+    <!---
+    <h1>{{ object.title }}を削除する</h1>
+    <form method='post'>
+        {% csrf_token %}
+        {{ forms.as_p }}
+        <button type='submit'>削除</button>
+    </form>
+-->
+
+{% endblock %}

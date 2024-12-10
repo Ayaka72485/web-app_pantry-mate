@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}食材の修正{% endblock %}
+
+{% block content %}
+<div class="voice-input-form">
+    <p class="task">食材名と個数を入力してください。</p>
+    <form id="voiceForm" method="post" action="{% url 'process_voice_input' %}">
+        {% csrf_token %}
+        <input type="hidden" id="food_name" name="food_name">
+        <input type="hidden" id="counts" name="counts">
+        <label for="id_title"></label>
+        <input type="text" id="id_title" name="title">
+        <button type="button" onclick="startDictation()">音声入力を開始</button>
+        <br>
+    </form>
+</div>
+    <script>
+        function startDictation() {
+            if (window.hasOwnProperty('webkitSpeechRecognition')) {
+                var recognition = new webkitSpeechRecognition();
+
+                recognition.continuous = false;
+                recognition.interimResults = false;
+
+                recognition.lang = "ja-JP";  // 日本語に設定
+                recognition.start();
+
+                recognition.onresult = function(e) {
+                    var result = e.results[0][0].transcript.trim();
+                    var parts = result.split(' ');
+                    if(parts.length==2){
+                        document.getElementById('food_name').value = parts[0];
+                        document.getElementById('counts').value = parts[1];
+                    }else{
+                        alert("入力が不完全です。");
+                        recognition.stop();
+                        return;
+                    }
+                    document.getElementById('voiceForm').submit();
+                    recognition.stop();
+
+                    //document.getElementById('food_name').value = result;
+                    //document.getElementById('voiceForm').submit();
+                    //recognition.stop();
+                };
+
+                recognition.onerror = function(e) {
+                    recognition.stop();
+                }
+            } else {
+                alert("お使いのブラウザは音声認識をサポートしていません。");
+            }
+        }
+    </script>
+{% endblock %}

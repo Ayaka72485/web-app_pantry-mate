@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+<!-- {% block title %}その他一覧{% endblock %}
+{% block h1 %}その他一覧{% endblock %} -->
+
+{% block content %} 
+    <div class="category-list">   
+        <a href="{% url 'meat-list' %}" class="btn button">肉</a>
+        <a href="{% url 'vegetable-list' %}" class="btn button">野菜</a>
+        <a href="{% url 'fruit-list' %}" class="btn button">果物</a>
+        <a href="{% url 'drink-list' %}" class="btn button">飲料</a>
+        <a href="{% url 'frozen_food-list' %}" class="btn button">冷凍食品</a>
+        <a href="{% url 'noodle-list' %}" class="btn button">麺</a>
+        <a href="{% url 'seasoning-list' %}" class="btn button">調味料</a>
+        <a href="{% url 'other-list' %}" class="btn button">その他</a>
+    </div>
+    <p class="task-w"></p>
+    <div class="food-blocks">
+        {% for item in other_list %}
+        <!-- <div class="p-4 m-4 bg-linen border border-warning rounded"> -->
+            <div class="food-block">
+            <!--<h5 class="text-dark">{{ item.category }}</h5> -->
+            <!-- <h3>{{ item.title }}</h3> -->
+            <div class="detail">
+                <a href="{% url 'detail-food' item.pk %}">{{ item.title}}</a>
+            </div>
+            <h5 class="text-dark">{{ item.number }}{{ item.get_unit_display }}</h5>
+            <h5>{{ item.best_by_date|date:"Y n/j" }}</h5>
+            <!-- <div class="mt-3">
+                <a href="{% url 'detail-food' item.pk %}">詳細</a>
+            </div> -->
+        </div>
+
+        {% endfor %}
+    </div>
+    <div class="menu-btn" onclick="toggleMenu()">☰</div>
+    <div id="side-menu" class="side-menu">
+        <ul>
+            <p class="task"></p>
+            <li><a href="{% url 'meat-list' %}" class="menu-button">肉</a></li>
+            <li><a href="{% url 'vegetable-list' %}" class="menu-button">野菜</a></li>
+            <li><a href="{% url 'fruit-list' %}" class="menu-button">果物</a></li>
+            <li><a href="{% url 'drink-list' %}" class="menu-button">飲料</a></li>
+            <li><a href="{% url 'frozen_food-list' %}" class="menu-button">冷凍食品</a></li>
+            <li><a href="{% url 'noodle-list' %}" class="menu-button">麺</a></li>
+            <li><a href="{% url 'seasoning-list' %}" class="menu-button">調味料</a></li>
+            <li><a href="{% url 'other-list' %}" class="menu-button">その他</a></li>
+        </ul>
+    </div>
+{% endblock content %}

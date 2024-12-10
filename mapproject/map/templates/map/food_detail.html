@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}食材詳細{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <p class="task"></p>
+        <h5 class="card-header">{{ object.get_category_display }}</h5>
+        <div class="card-body">
+            <p class="card-text card-title">{{ object.title }}</p>
+            <p class="card-text">{{ object.number }}{{ object.get_unit_display }}</p>
+            <p class="card-text">{{ object.best_by_date|date:"Y n/j" }}</p>
+            <a href="{% url 'list-food' %}" class="btn button">一覧へ</a>
+            <a href="{% url 'update-food' object.pk %}" class="btn button">編集する</a>
+            <a href="{% url 'delete-food' object.pk %}" class="btn button">削除する</a>
+        </div>
+    </div>
+{% endblock content %}

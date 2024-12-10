@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}修正{% endblock %}
+
+{% block content %}
+    <p class="task"></p>
+    <div class="food-update">
+        <form method='post'>
+            {% csrf_token %}
+            {{form.as_p}}
+            <button type='submit'>修正する</button>
+        </form>
+    </div>
+{% endblock %}

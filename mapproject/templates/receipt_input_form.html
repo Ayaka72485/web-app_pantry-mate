@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}食材の修正{% endblock %}
+
+{% block content %}
+<div class="receipt-input-form">
+    <form id="receiptForm" method="post" action="{% url 'process_receipt_input' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <p class="task">画像を選択してください。</p>
+        <input type="file" name="receipt" accept="image/*" required>
+        <br><input type="submit"  class="load" value="読み込む">
+    </form>
+</div>
+{% endblock %}

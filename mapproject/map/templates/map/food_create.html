@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}登録{% endblock %}
+
+{% block content %}
+    <div class="food-create">
+        <p class="task">食材を入力してください</p>
+        <form method='POST'>{% csrf_token %}
+            {{form.as_p}}
+            <input type='submit' value='登録する'>
+        </form> 
+    </div>
+    {% endblock %}
